@@ -43,6 +43,22 @@ body {
     white-space: nowrap;
 }
 
+#special-buttons {
+    margin: 16px;
+    margin-bottom: 0;
+
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+}
+#special-buttons > * {
+    flex: 0;
+
+    border-radius: 8px;
+    padding: 8px;
+
+    font-size: 32px;
+}
 #buttons-box {
     flex: 1 1 0;
     margin: 16px;
