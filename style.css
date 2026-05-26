@@ -1,0 +1,43 @@
+body {
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#calc-box {
+    height: 75%;
+    width: 50%;
+    margin: 0;
+    border: 4px solid black;
+    border-radius: 16px;
+    background-color: darkgray;
+
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+#screen-box {
+    border-bottom: 2px solid gray;
+
+    display: flex;
+}
+#screen-text {
+    height: 34px; /* Font size + padding (i think) */
+    width: 100%;
+
+    margin: 16px;
+    border: 1px solid black;
+    border-radius: 4px;
+    padding: 2px;
+
+    font-size: 32px;
+    text-align: end;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
