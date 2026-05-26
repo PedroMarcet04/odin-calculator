@@ -27,17 +27,46 @@ body {
     display: flex;
 }
 #screen-text {
-    height: 34px; /* Font size + padding (i think) */
+    height: 66px; /* Font size + padding (i think) */
     width: 100%;
 
     margin: 16px;
     border: 1px solid black;
     border-radius: 4px;
     padding: 2px;
+    background-color: white;
 
-    font-size: 32px;
+    font-size: 64px;
     text-align: end;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+}
+
+#buttons-box {
+    flex: 1 1 0;
+    margin: 16px;
+    border: 2px solid black;
+    border-radius: 16px;
+    overflow: hidden;
+
+    display: flex;
+    flex-direction: column;
+}
+.buttons-row {
+    flex: 1 1 0;
+
+    display: flex;
+}
+.calc-button {
+    flex: 1 1 0;
+
+    border: 1px solid black;
+    border-radius: 0;
+    background-color: darkgray;
+
+    font-size: 64px;
+}
+.calc-button.pressed {
+    background-color: gray;
 }
