@@ -51,12 +51,19 @@ body {
     overflow: hidden;
 
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
 }
+.buttons-column,
 .buttons-row {
     flex: 1 1 0;
 
     display: flex;
+}
+.buttons-column {
+    flex-direction: column;
+}
+#numpad {
+    flex: 3 1 0;
 }
 .calc-button {
     flex: 1 1 0;
@@ -64,8 +71,13 @@ body {
     border: 1px solid black;
     border-radius: 0;
     background-color: darkgray;
+    padding: 0;
+    box-sizing: border-box;
 
     font-size: 64px;
+}
+.calc-button.double-space {
+    flex: 2 2 0;
 }
 .calc-button.pressed {
     background-color: gray;
