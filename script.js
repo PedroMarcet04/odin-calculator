@@ -95,6 +95,24 @@ const clearOperation = function() {
     operation.splice(0, Infinity, "0");
 }
 
+const deleteFromOperation = function() {
+    const lastOperation = operation.at(-1);
+
+    if (operation.length == 1 && lastOperation == "0") return;
+
+    if (!Number.isNaN(Number(lastOperation))) {
+        if (lastOperation == "0") operation.pop();
+        else if (lastOperation.length == 1) {
+            operation.pop();
+            operation.push("0");
+        } else {
+            operation.push(operation.pop().slice(0, -1));
+        }
+    } else {
+        operation.pop();
+    }
+}
+
 const addNumberToOpeation = function(num) {
     if (!Number.isNaN(Number(operation.at(-1)))) {
         if (operation.at(-1) != "0") {
@@ -163,6 +181,9 @@ const buttonReleased = function(event) {
             break;
         case "CLEAR":
             clearOperation();
+            break;
+        case "BACK":
+            deleteFromOperation();
             break;
         default:
             console.log("unknown button pressed");
