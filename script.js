@@ -1,4 +1,83 @@
 
+const evaluateMath = function(stack) {
+    // Base case o
+    if (stack.length < 2) {
+        if (stack.length == 0) {
+            return 0;
+        } else {
+            if (typeof stack[0] === "number") {
+                return stack[0];
+            } else {
+                return "ERR";
+            }
+        }
+    }
+
+    // Recursively handle parenthesees
+    while (stack.includes("(")) {
+        console.log("resolving parens")
+        const start = stack.findIndex((val) => val=="(");
+        let numOfOpenParen = 1;
+        let end = -1;
+        for (let i = start+1; i < stack.length; i++) {
+            switch (stack[i]) {
+                case "(":
+                    numOfOpenParen++;
+                    break;
+                case ")":
+                    numOfOpenParen--;
+                    break;
+            }
+            if (numOfOpenParen == 0) {
+                end = i;
+                break;
+            }
+        }
+        if (end == -1) return "ERR";
+        
+        // Recursive call
+        const resolvedParenExpression = evaluateMath(stack.slice(start+1, end));
+        if (resolvedParenExpression == "ERR") return "ERR";
+        stack.splice(start, end-start+1, resolvedParenExpression);
+    }
+
+    // Handle multiplication, division, addition, and subtraction
+    const operators = ["*", "/", "+", "-"];
+
+    for (const operator of operators) {
+        while (stack.includes(operator)) {
+            const operatorIndex = stack.findIndex((val) => val==operator);
+            if (typeof stack[operatorIndex-1] === "number" && typeof stack[operatorIndex+1] === "number") {
+                const num1 = stack[operatorIndex-1];
+                const num2 = stack[operatorIndex+1];
+                let result = 0;
+                switch (operator) {
+                    case "*":
+                        result = num1*num2;
+                        break;
+                    case "/":
+                        result = num1/num2;
+                        break;
+                    case "+":
+                        result = num1+num2;
+                        break;
+                    case "-":
+                        result = num1-num2;
+                        break;
+                }
+                
+                stack.splice(operatorIndex-1, 3, result);
+            } else {
+                return "ERR";
+            }
+        }
+    }
+    if (stack.length == 1) {
+        return stack[0];
+    } else {
+        return "ERR";
+    }
+}
 
 // ---Buttons---
 const buttonReset = function(event) {
@@ -36,3 +115,33 @@ const calcButtons = document.querySelectorAll(".calc-button");
 for (const button of calcButtons) {
     button.addEventListener("mousedown", buttonPressed);
 }
+
+// --- Test Cases ---
+// // debugger;
+// let test = [10];
+// console.log(evaluateMath(test)) // .toBe(10);
+
+//  test = [10, 20];
+// console.log(evaluateMath(test)) // .toBe("ERR");
+
+//  test = [10, "+", 2];
+// console.log(evaluateMath(test))//.toBe(12);
+
+//  test = [10, "*", 2];
+// console.log(evaluateMath(test))//.toBe(20);
+
+//  test = [10, "+", 2, "*", 2];
+// console.log(evaluateMath(test))//.toBe(14);
+
+//  test = [10, "*", 2, "+", 2];
+// console.log(evaluateMath(test))//.toBe(22);
+
+// debugger;
+//  test = ["(", 10, "+", 2, ")", "*", 2];
+// console.log(evaluateMath(test))//.toBe(24);
+
+//  test = [10, "*", "(", 2, "+", 2, ")"];
+// console.log(evaluateMath(test))//.toBe(40);
+
+//  test = [10, "*", 2, "+", 2, ")"];
+// console.log(evaluateMath(test))//.toBe(ERR);
