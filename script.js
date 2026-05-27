@@ -82,13 +82,15 @@ const evaluateMath = function(stack) {
     }
 }
 
+
+
 // --- Operations ---
 const operationDisplay = document.querySelector("#screen-text");
 const operation = ["0"];
 
 const displayOperation = function() {
     operationDisplay.textContent = operation.join(" ");
-    console.log(`Current operation: ${operation}`);
+    // console.log(`Current operation: ${operation}`);
 }
 
 const clearOperation = function() {
@@ -144,6 +146,8 @@ const evaluateOperation = function() {
 }
 
 displayOperation();
+
+
 
 // ---Buttons---
 const buttonReset = function(event) {
@@ -207,6 +211,41 @@ const calcButtons = document.querySelectorAll(".calc-button");
 for (const button of calcButtons) {
     button.addEventListener("mousedown", buttonPressed);
 }
+
+
+
+// ---Keyboard input---
+const keyPressed = function(event) {
+    switch (event.key) {
+        case "7": case "8": case "9":
+        case "4": case "5": case "6":
+        case "1": case "2": case "3":
+        case "0":
+            addNumberToOpeation(event.key);
+            break;
+        case ".":
+            addDotToOperation();
+            break;
+        case "*": case "/": case "+": case "-":
+        case "(": case ")":
+            addOperatorToOperation(event.key);
+            break;
+        case "=": case "Enter":
+            evaluateOperation();
+            break;
+        case "Delete":
+            clearOperation();
+            break;
+        case "Backspace":
+            deleteFromOperation();
+            break;
+        default:
+            console.log(`unknown key pressed: ${event.key}`)
+    }
+    displayOperation();
+}
+
+document.addEventListener("keydown", keyPressed);
 
 // //--- Test Cases ---
 // // debugger;
