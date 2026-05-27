@@ -96,7 +96,6 @@ const clearOperation = function() {
 }
 
 const addNumberToOpeation = function(num) {
-    debugger;
     if (!Number.isNaN(Number(operation.at(-1)))) {
         if (operation.at(-1) != "0") {
             operation.push(operation.pop().concat(num));
@@ -119,6 +118,11 @@ const addDotToOperation = function(num) {
 
 const addOperatorToOperation = function(operator) {
     operation.push(operator);
+}
+
+const evaluateOperation = function() {
+    const evaluatedOperation = evaluateMath(operation);
+    operation.splice(0, Infinity, evaluatedOperation);
 }
 
 displayOperation();
@@ -154,6 +158,9 @@ const buttonReleased = function(event) {
         case "(": case ")":
             addOperatorToOperation(button.textContent);
             break;
+        case "=":
+            evaluateOperation();
+            break;
         case "CLEAR":
             clearOperation();
             break;
@@ -180,7 +187,7 @@ for (const button of calcButtons) {
     button.addEventListener("mousedown", buttonPressed);
 }
 
-// --- Test Cases ---
+// //--- Test Cases ---
 // // debugger;
 // let test = [10];
 // console.log(evaluateMath(test)) // .toBe(10);
