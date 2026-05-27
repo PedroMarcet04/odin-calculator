@@ -108,8 +108,12 @@ const addNumberToOpeation = function(num) {
 }
 
 const addDotToOperation = function(num) {
-    if (typeof operation.at(-1) === "number") {
-        return;
+    if (Number(operation.at(-1)) != NaN) {
+        if (operation.at(-1).includes(".")) {
+            return;
+        } else {
+            operation.push(operation.pop().concat("."));
+        }
     }
 }
 
@@ -138,6 +142,9 @@ const buttonReleased = function(event) {
         case "1": case "2": case "3":
         case "0":
             addNumberToOpeation(button.textContent);
+            break;
+        case ".":
+            addDotToOperation();
             break;
         case "CLEAR":
             clearOperation();
