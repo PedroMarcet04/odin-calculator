@@ -5,9 +5,9 @@ const evaluateMath = function(stack) {
     // Base case o
     if (stack.length < 2) {
         if (stack.length == 0) {
-            return 0;
+            return "0";
         } else {
-            if (typeof stack[0] === "number") {
+            if (Number(stack[0]) != NaN) {
                 return stack[0];
             } else {
                 return "ERR";
@@ -49,10 +49,10 @@ const evaluateMath = function(stack) {
     for (const operator of operators) {
         while (stack.includes(operator)) {
             const operatorIndex = stack.findIndex((val) => val==operator);
-            if (typeof stack[operatorIndex-1] === "number" && typeof stack[operatorIndex+1] === "number") {
-                const num1 = stack[operatorIndex-1];
-                const num2 = stack[operatorIndex+1];
-                let result = 0;
+            const num1 = Number(stack[operatorIndex-1]);
+            const num2 = Number(stack[operatorIndex+1]);
+            if (num1 !== NaN && num2 !== NaN) {
+                let result;
                 switch (operator) {
                     case "*":
                         result = num1*num2;
@@ -67,6 +67,7 @@ const evaluateMath = function(stack) {
                         result = num1-num2;
                         break;
                 }
+                result = String(result);
                 
                 stack.splice(operatorIndex-1, 3, result);
             } else {
@@ -83,24 +84,32 @@ const evaluateMath = function(stack) {
 
 // --- Operations ---
 const operationDisplay = document.querySelector("#screen-text");
-const operation = [0];
+const operation = ["0"];
 
 const displayOperation = function() {
     operationDisplay.textContent = operation.join(" ");
 }
 
 const clearOperation = function() {
-    operation.splice(0, Infinity, 0);
+    operation.splice(0, Infinity, "0");
 }
 
 const addNumberToOpeation = function(num) {
-    if (typeof operation.at(-1) === "number") {
-        operation.push(
-            operation.pop()*10 +
-            num
-        );
+    if (Number(operation.at(-1)) != NaN) {
+        if (operation.at(-1) != "0") {
+            operation.push(operation.pop().concat(num));
+        } else {
+            operation.pop();
+            operation.push(num);
+        }
     } else {
         operation.push(num);
+    }
+}
+
+const addDotToOperation = function(num) {
+    if (typeof operation.at(-1) === "number") {
+        return;
     }
 }
 
@@ -128,7 +137,7 @@ const buttonReleased = function(event) {
         case "4": case "5": case "6":
         case "1": case "2": case "3":
         case "0":
-            addNumberToOpeation(parseInt(button.textContent));
+            addNumberToOpeation(button.textContent);
             break;
         case "CLEAR":
             clearOperation();
