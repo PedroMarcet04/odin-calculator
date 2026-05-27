@@ -81,12 +81,18 @@ const evaluateMath = function(stack) {
     }
 }
 
+// --- Operations ---
 const currentOperationDisplay = document.querySelector("#screen-text");
 const currentOperation = [0];
 
 const displayCurrentOperation = function() {
     currentOperationDisplay.textContent = currentOperation.join(" ");
 }
+
+const clearCurrentOperation = function() {
+    currentOperation.splice(0, Infinity, 0);
+}
+
 const addNumberToOpeation = function(num) {
     if (typeof currentOperation.at(-1) === "number") {
         currentOperation.push(
@@ -96,7 +102,6 @@ const addNumberToOpeation = function(num) {
     } else {
         currentOperation.push(num);
     }
-    displayCurrentOperation();
 }
 
 displayCurrentOperation();
@@ -125,9 +130,13 @@ const buttonReleased = function(event) {
         case "0":
             addNumberToOpeation(parseInt(button.textContent));
             break;
+        case "CLEAR":
+            clearCurrentOperation();
+            break;
         default:
             console.log("unknown button pressed");
     }
+    displayCurrentOperation();
 }
 const buttonPressed = function(event) {
     let button = event.target;
