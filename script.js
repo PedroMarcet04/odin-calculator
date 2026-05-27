@@ -82,29 +82,29 @@ const evaluateMath = function(stack) {
 }
 
 // --- Operations ---
-const currentOperationDisplay = document.querySelector("#screen-text");
-const currentOperation = [0];
+const operationDisplay = document.querySelector("#screen-text");
+const operation = [0];
 
-const displayCurrentOperation = function() {
-    currentOperationDisplay.textContent = currentOperation.join(" ");
+const displayOperation = function() {
+    operationDisplay.textContent = operation.join(" ");
 }
 
-const clearCurrentOperation = function() {
-    currentOperation.splice(0, Infinity, 0);
+const clearOperation = function() {
+    operation.splice(0, Infinity, 0);
 }
 
 const addNumberToOpeation = function(num) {
-    if (typeof currentOperation.at(-1) === "number") {
-        currentOperation.push(
-            currentOperation.pop()*10 +
+    if (typeof operation.at(-1) === "number") {
+        operation.push(
+            operation.pop()*10 +
             num
         );
     } else {
-        currentOperation.push(num);
+        operation.push(num);
     }
 }
 
-displayCurrentOperation();
+displayOperation();
 
 // ---Buttons---
 const buttonReset = function(event) {
@@ -131,12 +131,12 @@ const buttonReleased = function(event) {
             addNumberToOpeation(parseInt(button.textContent));
             break;
         case "CLEAR":
-            clearCurrentOperation();
+            clearOperation();
             break;
         default:
             console.log("unknown button pressed");
     }
-    displayCurrentOperation();
+    displayOperation();
 }
 const buttonPressed = function(event) {
     let button = event.target;
