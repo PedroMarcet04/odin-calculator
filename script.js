@@ -1,4 +1,6 @@
 
+// Reduces an array of numbers and operations into
+// a result (or "ERR"). Follows PEMDAS.
 const evaluateMath = function(stack) {
     // Base case o
     if (stack.length < 2) {
@@ -15,7 +17,7 @@ const evaluateMath = function(stack) {
 
     // Recursively handle parenthesees
     while (stack.includes("(")) {
-        console.log("resolving parens")
+        // console.log("resolving parens")
         const start = stack.findIndex((val) => val=="(");
         let numOfOpenParen = 1;
         let end = -1;
@@ -34,7 +36,7 @@ const evaluateMath = function(stack) {
             }
         }
         if (end == -1) return "ERR";
-        
+
         // Recursive call
         const resolvedParenExpression = evaluateMath(stack.slice(start+1, end));
         if (resolvedParenExpression == "ERR") return "ERR";
@@ -79,10 +81,30 @@ const evaluateMath = function(stack) {
     }
 }
 
+const currentOperationDisplay = document.querySelector("#screen-text");
+const currentOperation = [0];
+
+const displayCurrentOperation = function() {
+    currentOperationDisplay.textContent = currentOperation.join(" ");
+}
+const addNumberToOpeation = function(num) {
+    if (typeof currentOperation.at(-1) === "number") {
+        currentOperation.push(
+            currentOperation.pop()*10 +
+            num
+        );
+    } else {
+        currentOperation.push(num);
+    }
+    displayCurrentOperation();
+}
+
+displayCurrentOperation();
+
 // ---Buttons---
 const buttonReset = function(event) {
     let button = event.target;
-    console.log(`Button "${button.textContent}" reset.`);
+    // console.log(`Button "${button.textContent}" reset.`);
 
     button.classList.remove("pressed"); // Removing darker background
 
@@ -92,15 +114,24 @@ const buttonReset = function(event) {
 }
 const buttonReleased = function(event) {
     let button = event.target;
-    console.log(`Button "${button.textContent}" released.`);
+    // console.log(`Button "${button.textContent}" released.`);
 
     buttonReset(event); // Resetting button to unclicked state
 
-    
+    switch (button.textContent) {
+        case "7": case "8": case "9":
+        case "4": case "5": case "6":
+        case "1": case "2": case "3":
+        case "0":
+            addNumberToOpeation(parseInt(button.textContent));
+            break;
+        default:
+            console.log("unknown button pressed");
+    }
 }
 const buttonPressed = function(event) {
     let button = event.target;
-    console.log(`Button "${button.textContent}" pressed.`);
+    // console.log(`Button "${button.textContent}" pressed.`);
 
     button.classList.add("pressed"); // Add dark background
 
