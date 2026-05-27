@@ -39,8 +39,11 @@ body {
     font-size: 64px;
     text-align: end;
     overflow: hidden;
-    text-overflow: ellipsis;
+    /* text-overflow: ellipsis; */
     white-space: nowrap;
+
+    display: flex;
+    justify-content: flex-end;
 }
 
 #special-buttons {
