@@ -7,7 +7,7 @@ const evaluateMath = function(stack) {
         if (stack.length == 0) {
             return "0";
         } else {
-            if (Number(stack[0]) != NaN) {
+            if (!Number.isNaN(Number(stack[0]))) {
                 return stack[0];
             } else {
                 return "ERR";
@@ -51,7 +51,7 @@ const evaluateMath = function(stack) {
             const operatorIndex = stack.findIndex((val) => val==operator);
             const num1 = Number(stack[operatorIndex-1]);
             const num2 = Number(stack[operatorIndex+1]);
-            if (num1 !== NaN && num2 !== NaN) {
+            if (!Number.isNaN(num1) && !Number.isNaN(num2)) {
                 let result;
                 switch (operator) {
                     case "*":
@@ -88,6 +88,7 @@ const operation = ["0"];
 
 const displayOperation = function() {
     operationDisplay.textContent = operation.join(" ");
+    console.log(`Current operation: ${operation}`);
 }
 
 const clearOperation = function() {
@@ -95,7 +96,8 @@ const clearOperation = function() {
 }
 
 const addNumberToOpeation = function(num) {
-    if (Number(operation.at(-1)) != NaN) {
+    debugger;
+    if (!Number.isNaN(Number(operation.at(-1)))) {
         if (operation.at(-1) != "0") {
             operation.push(operation.pop().concat(num));
         } else {
@@ -108,13 +110,15 @@ const addNumberToOpeation = function(num) {
 }
 
 const addDotToOperation = function(num) {
-    if (Number(operation.at(-1)) != NaN) {
-        if (operation.at(-1).includes(".")) {
-            return;
-        } else {
-            operation.push(operation.pop().concat("."));
-        }
+    if (!Number.isNaN(Number(operation.at(-1)))) {
+        if (!operation.at(-1).includes(".")) operation.push(operation.pop().concat("."));
+    } else {
+        operation.push("0.");
     }
+}
+
+const addOperatorToOperation = function(operator) {
+    operation.push(operator);
 }
 
 displayOperation();
@@ -145,6 +149,10 @@ const buttonReleased = function(event) {
             break;
         case ".":
             addDotToOperation();
+            break;
+        case "*": case "/": case "+": case "-":
+        case "(": case ")":
+            addOperatorToOperation(button.textContent);
             break;
         case "CLEAR":
             clearOperation();
